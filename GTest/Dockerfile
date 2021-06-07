@@ -25,6 +25,8 @@ RUN apt-get update \
 	wget \
 	vim \
 	ca-certificates \
+	gzip \
+	zip \
 	git \
 	g++ \
 	make \
@@ -42,6 +44,13 @@ RUN	mkdir -p ${GTEST_HOME} \
 
 ENV LD_LIBRARY_PATH=${GTEST_HOME}/lib:${LD_LIBRARY_PATH}
 
+RUN apt-get update \
+	&& apt-get install -y --no-install-recommends \
+	&& cd /root \
+	&& wget https://github.com/hadighasemizadeh/Containers/blob/master/GTest/cpp_example.tar.gz --no-check-certificate 
+
+RUN unzip cpp_example.tar.gz
+	
 # Set work directory
 #WORKDIR /home/${MY_USER_NAME}
 
