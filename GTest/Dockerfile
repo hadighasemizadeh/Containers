@@ -50,11 +50,27 @@ RUN apt-get update \
 	&& wget https://github.com/hadighasemizadeh/Containers/blob/master/GTest/cpp_example.tar.gz --no-check-certificate 
 
 RUN unzip cpp_example.tar.gz
-	
+
+
+# Create a user and set his/her home directory, bash and make him/her sudoer
+ARG MY_USER_NAME=hadi
+
+
+RUN useradd -ms /bin/bash ${MY_USER_NAME}
+RUN sudo usermod -a -G sudo ${MY_USER_NAME} 
+
+
 # Set work directory
-#WORKDIR /home/${MY_USER_NAME}
+WORKDIR /home/${MY_USER_NAME}
 
 
-#ENTRYPOINT ["/bin/bash"]
+## Copy project source code it copies the proj_dist_dir/ from current directory to WORKDIR/proj_dist_dir/
+##COPY proj_dist_dir ./proj_dist_dir/
+##RUN chown -R ${MY_USER_NAME}:${MY_USER_NAME} ./proj_dist_dir/
 
+
+USER ${MY_USER_NAME}	
+
+
+ENTRYPOINT ["/bin/bash"]
 
